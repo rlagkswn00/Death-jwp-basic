@@ -1,19 +1,17 @@
-package next;
-
-import java.io.IOException;
-import java.io.PrintWriter;
+package next.web;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@WebServlet("/")
-public class HelloWorldServlet extends HttpServlet {
+@WebServlet("/user/logout")
+public class UserLogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter out = resp.getWriter();
-        out.print("Hello World!");
+        req.getSession().removeAttribute("user");
+        resp.sendRedirect("/index.jsp");
     }
 }

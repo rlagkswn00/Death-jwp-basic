@@ -1,12 +1,14 @@
 package next.web;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 
 import next.model.User;
 
@@ -26,6 +28,10 @@ public class CreateUserServlet extends HttpServlet {
                 req.getParameter("email"));
         log.debug("user : {}", user);
         DataBase.addUser(user);
-        resp.sendRedirect("/user/list");
+        DataBase.findAll().stream()
+                .forEach(e ->{
+                    System.out.println(e);
+                });
+        resp.sendRedirect("/user/login.jsp");
     }
 }
