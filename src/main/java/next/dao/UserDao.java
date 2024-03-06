@@ -29,25 +29,10 @@ public class UserDao {
 
         String sql = "SELECT * FROM USERS";
 
-        PreparedStatementSetter pss = new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement pstmt) throws SQLException {
-
-            }
-        };
-
-        RowMapper rowMapper = new RowMapper() {
-            @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
-                if (rs.next()) {
-                    return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
-                            rs.getString("email"));
-                }
-                return null;
-            }
-        };
-
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, (ResultSet rs) -> {
+            return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
+                    rs.getString("email"));
+        });
     }
 
     public User findByUserId(String userId) throws SQLException {
@@ -68,6 +53,12 @@ public class UserDao {
             }
         };
 
-        return jdbcTemplate.queryForObject(sql, rowMapper, userId);
+        return jdbcTemplate.queryForObject(sql, (ResultSet rs) -> {
+            if (rs.next()) {
+                return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
+                        rs.getString("email"));
+            }
+            return null;
+        }, userId);
     }
 }
