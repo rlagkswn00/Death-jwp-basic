@@ -47,7 +47,7 @@ public class UserDao {
             }
         };
 
-        return (List<User>) jdbcTemplate.query(sql, pss, rowMapper);
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     public User findByUserId(String userId) throws SQLException {
@@ -55,12 +55,6 @@ public class UserDao {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-        PreparedStatementSetter pss = new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement pstmt) throws SQLException {
-                pstmt.setString(1, userId);
-            }
-        };
 
         RowMapper<User> rowMapper = new RowMapper<User>() {
 
@@ -74,6 +68,6 @@ public class UserDao {
             }
         };
 
-        return jdbcTemplate.queryForObject(sql, pss, rowMapper);
+        return jdbcTemplate.queryForObject(sql, rowMapper, userId);
     }
 }

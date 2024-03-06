@@ -24,13 +24,14 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> T queryForObject(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException {
+    public <T> T queryForObject(String sql, RowMapper<T> rowMapper, Object... parameters) throws DataAccessException {
 
         ResultSet rs = null;
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);) {
-
-            pss.setValues(pstmt);
+            for (int i = 0; i < parameters.length; i++) {
+                pstmt.setObject(i + 1, parameters[i]);
+            }
 
             rs = pstmt.executeQuery();
             T result = rowMapper.mapRow(rs);
@@ -49,12 +50,13 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException {
+    public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... parameters) throws DataAccessException {
         ResultSet rs = null;
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);) {
-
-            pss.setValues(pstmt);
+            for (int i = 0; i < parameters.length; i++) {
+                pstmt.setObject(i + 1, parameters[i]);
+            }
 
             rs = pstmt.executeQuery();
 
