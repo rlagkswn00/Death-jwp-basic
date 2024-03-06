@@ -83,9 +83,10 @@ public class UserDao {
             }
         };
 
-        RowMapper rowMapper = new RowMapper() {
+        RowMapper<User> rowMapper = new RowMapper<User>() {
+
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 if (rs.next()) {
                     return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
                             rs.getString("email"));
@@ -94,6 +95,6 @@ public class UserDao {
             }
         };
 
-        return (User) jdbcTemplate.queryForObject(sql, pss, rowMapper);
+        return jdbcTemplate.queryForObject(sql, pss, rowMapper);
     }
 }
