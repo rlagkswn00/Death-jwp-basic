@@ -76,4 +76,10 @@ public class User {
         return true;
     }
 
+    public void update(User user) {
+        this.userId = user.getUserId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
 }
