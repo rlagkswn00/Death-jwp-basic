@@ -16,7 +16,7 @@ public class UpdateUserFormController implements Controller {
         String email = httpServletRequest.getParameter("email");
         String name = httpServletRequest.getParameter("name");
         UserDao userDao = new UserDao();
-        userDao.insert(new User(userId, password, email, name));
+        userDao.update(new User(userId, password, email, name));
         return "redirect:/user/list";
     }
 }
