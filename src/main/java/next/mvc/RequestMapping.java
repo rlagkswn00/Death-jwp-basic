@@ -8,6 +8,8 @@ import next.controller.ListUserController;
 import next.controller.LoginUserFormController;
 import next.controller.LogoutUserController;
 import next.controller.UpdateUserFormController;
+import next.controller.qna.AddAnswerController;
+import next.controller.qna.ShowController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +32,12 @@ public class RequestMapping {
         controllers.put("/user/loginForm", new LoginUserFormController());
         controllers.put("/user/logout", new LogoutUserController());
         controllers.put("/user/updateForm", new UpdateUserFormController());
+
+        controllers.put("/qna/addQuestion", new FowardController("/qna/form.jsp"));
+
+        controllers.put("/qna/show", new ShowController());
+
+        controllers.put("/api/qna/addAnswer", new AddAnswerController());
     }
 
     public Controller getController(String requestUri) {
